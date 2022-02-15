@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -26,13 +27,14 @@ public class Wallet {
     @Size(max = 100)
     private String description;
 
-    @Min(1)@Max(3)
+    @Min(1)
+    @Max(3)
     private Integer priority;
 
-    private Double currentBalance;
+    private BigDecimal currentBalance = BigDecimal.ZERO;
 
-    @PrePersist
-    public void setBalance(){
-        this.currentBalance = new Double(0);
-    }
+    private String pin;
+
+
+
 }
