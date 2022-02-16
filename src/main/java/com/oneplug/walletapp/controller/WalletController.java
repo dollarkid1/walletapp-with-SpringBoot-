@@ -1,5 +1,6 @@
 package com.oneplug.walletapp.controller;
 
+import com.oneplug.walletapp.entity.RecipientWallet;
 import com.oneplug.walletapp.entity.Wallet;
 import com.oneplug.walletapp.services.ValidationErrorService;
 import com.oneplug.walletapp.services.WalletServices;
@@ -11,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,4 +63,29 @@ public class WalletController {
         walletServices.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
+    @PatchMapping("/deposit")
+    public ResponseEntity<?> deposit( Long id, BigDecimal amount, @Valid @RequestBody Wallet wallet){
+        walletServices.deposit(id,amount);
+        Wallet walletSaved = walletServices.update(wallet);
+        return new ResponseEntity<Wallet>(walletSaved, HttpStatus.OK);
+    }
+
+    @PatchMapping("/withdraw")
+    public ResponseEntity<?> withdraw(Long id, BigDecimal amount,String pin, @Valid @RequestBody Wallet wallet){
+        walletServices.withdraw(id,amount,pin);
+        Wallet walletSaved = walletServices.update(wallet);
+        return new ResponseEntity<Wallet>(walletSaved, HttpStatus.ACCEPTED);
+
+
+    }
+
+    @PatchMapping("/transfer")
+    public ResponseEntity<?> transfer( Long id, BigDecimal amount, String pin, String recipientAccountNumber, @Valid @RequestBody Wallet wallet){
+        walletServices.transfer(recipientAccountNumber,pin,id,amount);
+        Wallet walletSaved = walletServices.update(wallet);
+        return new ResponseEntity<Wallet>(walletSaved, HttpStatus.ACCEPTED);
+    }
+
 }

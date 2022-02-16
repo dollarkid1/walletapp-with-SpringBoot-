@@ -118,7 +118,8 @@ public class WalletServices {
         Wallet userWallet = wallet.get();
         String myPin = userWallet.getPin();
 
-        if (recipientAccountNumber == null || !recipientAccountNumber.equals(recipientWallet.getAccountNumber())) {
+        if (recipientAccountNumber == null
+                || !recipientAccountNumber.equals(recipientWallet.getAccountNumber())) {
             throw new WalletException("recipient account number is null/doesnt match");
         }
 
