@@ -25,6 +25,8 @@ public class WalletServices {
     }
 
     public Wallet getById(Long id) {
+        if(id == null) throw new IllegalArgumentException("id can not be empty");
+
         Optional<Wallet> wallet = walletRepository.findById(id);
         if (wallet.isPresent()) {
             return wallet.get();
@@ -110,6 +112,12 @@ public class WalletServices {
 
         RecipientWallet recipientWallet = new RecipientWallet();
         Optional<Wallet> wallet = walletRepository.findById(walletId);
+
+
+       // Wallet recipient = walletRepository.findByAccountNumber(recipientAccountNumber);
+
+
+
 
         if (wallet.isEmpty()) {
             throw new WalletException("Wallet with " + walletId + " does not exist ");
